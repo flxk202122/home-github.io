@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주기적처리 / window 시간차마다 실행하기</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #banner {
+            height: 0;
+            padding-top: 50%;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            transition: 0.5s;
+        }
+
+        .banner .btns {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            text-align: center;
+        }
+
+
+        .banner .btns span {
+            display: block;
+            width: 3rem;
+            line-height: 3rem;
+            border-radius: 10rem;
+            border: 1px solid lightslategray;
+            font-size: 1.2rem;
+        }
+
+        .banner .btns span+span {
+            margin-left: 0.5rem;
+        }
+
+        .banner .btns span.act {
+            background-color: lightslategray;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="banner">
+        <div id="banner">
+
+        </div>
+        <div class="btns">
+
+        </div>
+        <div class="toggle">
+
+        </div>
+    </section>
+
+    <script>
+
+        const slideArr = ['url(./img/slide_0.jpeg)', 'url(./img/slide_1.jpeg)', 'url(./img/slide_2.jpeg)', 'url(./img/slide_3.jpeg)', 'url(./img/slide_4.jpeg)', 'url(./img/slide_5.jpeg)']
+
+        let count = 0;
+        let btntag = "";
+        const contentnum = slideArr.length
+        let togglebtn = true;
+
+        //첫화면 열릴것을 대비
+        document.querySelector('#banner').style.backgroundImage = slideArr[0]
+
+
+        for (i = 0; i < contentnum; i++) {
+            btntag += "<span>" + i + "</span>"
+        }
+
+        document.querySelector(".banner .btns").innerHTML = btntag;
+        document.querySelector(".banner .toggle").innerHTML = `<button>버튼</button>`
+
+        document.querySelectorAll('.banner .btns span')[count].classList = "act";
+
+
+
+
+        //화면이 켜지고 1초뒤에 시작
+        const autocolor = () => {
+            if (count < contentnum - 1) {
+                count++;
+            } else {
+                count = 0;
+            }
+            // count++;
+            // count %= 6; //순환식
+            document.querySelector('#banner').style.backgroundImage = `url(./img/slide_${count}.jpeg)`; //이거는 다지우고 새로 넣어주는 식.
+
+            document.querySelectorAll('.banner .btns span').forEach((el, idx) => {
+                if (count === idx) {
+                    el.classList = "act"
+                } else {
+                    el.classList = ""
+                }
+            })
+        }
+
+        setInterval(() => { autocolor(); }, 1000)
+
+        document.querySelectorAll('.banner .btns span').forEach((el, idx) => {
+            el.addEventListener('click', function () {
+                clearInterval(autocolor);
+
+
+            })
+        })
+
+
+
+
+
+
+
+
+        //classlist는 string으로 인식, style은
+    </script>
+
+</body>
+
+</html>
